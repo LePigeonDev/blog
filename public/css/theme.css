@@ -1,0 +1,130 @@
+/* ---------- Base ---------- */
+:root{
+  --bg-start:#f6f8fb;
+  --bg-end:#eef2f9;
+  --glass: rgba(255,255,255,.7);
+  --glass-border: rgba(255,255,255,.4);
+  --text: #0f172a; /* slate-900 */
+  --muted:#6b7280; /* gray-500 */
+  --brand:#6366f1; /* indigo-500 */
+  --brand-600:#4f46e5; /* indigo-600 */
+  --brand-700:#4338ca; /* indigo-700 */
+}
+
+/* fond global : dégradé + motif très léger */
+body{
+  color:var(--text);
+  background:
+    radial-gradient(18rem 18rem at 10% 10%, rgba(99,102,241,.12), transparent 60%),
+    radial-gradient(22rem 22rem at 90% 15%, rgba(14,165,233,.10), transparent 60%),
+    radial-gradient(26rem 26rem at 20% 80%, rgba(16,185,129,.10), transparent 60%),
+    linear-gradient(180deg, var(--bg-start), var(--bg-end));
+  min-height:100dvh;
+}
+
+/* ---------- Navbar verre dépoli ---------- */
+.nav-glass{
+  position: sticky; top: 0; z-index: 1030; /* au-dessus du reste */
+  backdrop-filter: saturate(180%) blur(8px);
+  background: var(--glass);
+  border-bottom: 1px solid rgba(15,23,42,.06);
+}
+.nav-glass .nav-link,
+.nav-glass .navbar-brand{
+  color:#111827 !important;
+}
+.nav-glass .nav-link.active{
+  color: var(--brand-600) !important;
+}
+
+/* ---------- Hero ---------- */
+.hero{
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(60rem 20rem at 110% -10%, rgba(99,102,241,.18), transparent 50%),
+    radial-gradient(30rem 16rem at -10% 110%, rgba(14,165,233,.15), transparent 50%),
+    linear-gradient(180deg, rgba(255,255,255,.8), rgba(255,255,255,.6));
+  border: 1px solid rgba(15,23,42,.06);
+  box-shadow: 0 10px 30px rgba(2,6,23,.06);
+}
+
+/* ---------- Cartes articles ---------- */
+.card-article{
+  border:1px solid rgba(15,23,42,.06);
+  box-shadow: 0 6px 24px rgba(2,6,23,.06);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.card-article:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(2,6,23,.10);
+}
+.img-16x9{
+  aspect-ratio:16/9;
+  object-fit:cover;
+  background:#e5e7eb;
+  border-bottom:1px solid rgba(15,23,42,.06);
+}
+.card-meta{
+  color:var(--muted);
+  font-size:.875rem;
+}
+.card-title{
+  color:#0f172a;
+}
+.card-excerpt{
+  color:#475569;
+}
+
+/* ---------- Badges ---------- */
+.badge-cat{
+  background: rgba(16,185,129,.12);
+  color:#065f46;
+  border:1px solid rgba(16,185,129,.25);
+}
+.badge-tag{
+  background: rgba(14,165,233,.12);
+  color:#075985;
+  border:1px solid rgba(14,165,233,.25);
+}
+
+/* ---------- Boutons ---------- */
+.btn-brand{
+  --bs-btn-bg: var(--brand);
+  --bs-btn-border-color: var(--brand);
+  --bs-btn-hover-bg: var(--brand-600);
+  --bs-btn-hover-border-color: var(--brand-600);
+  --bs-btn-active-bg: var(--brand-700);
+  --bs-btn-active-border-color: var(--brand-700);
+  color:#fff;
+}
+.btn-soft{
+  background: rgba(99,102,241,.12);
+  color: var(--brand-700);
+  border:1px solid rgba(99,102,241,.25);
+}
+.btn-soft:hover{
+  background: rgba(99,102,241,.2);
+}
+
+/* ---------- Pagination Bootstrap : un peu plus “pill” ---------- */
+.pagination .page-link{
+  border-radius: .625rem;
+  border-color: rgba(15,23,42,.08);
+}
+.pagination .page-item.active .page-link{
+  background-color: var(--brand-600);
+  border-color: var(--brand-600);
+}
+
+/* ---------- Footer ---------- */
+.site-footer{
+  border-top: 1px solid rgba(15,23,42,.06);
+  color:#64748b;
+}
+
+/* utilitaires */
+.text-gradient{
+  background: linear-gradient(90deg, var(--brand-600), #06b6d4);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}

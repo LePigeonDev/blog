@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Category; // <-- AJOUT
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,7 +20,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        // On envoie la liste des catégories au formulaire d’inscription
+        $categories = Category::orderBy('name')->get(['id','name']);
+        return view('auth.register', compact('categories'));
     }
 
     /**
@@ -30,21 +33,29 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'name'        => ['required', 'string', 'max:255'],
+            'email'       => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password'    => ['required', 'confirmed', Rules\Password::defaults()],
+            'categories'  => ['array'],                         // <-- AJOUT
+            'categories.*'=> ['integer','exists:categories,id'],// <-- AJOUT
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'name'     => $request->name,
+            'email'    => $request->email,
             'password' => Hash::make($request->password),
+            'role'     => 'user', // si tu utilises le champ 'role'
         ]);
 
         event(new Registered($user));
-
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        // Sauvegarde des préférences
+        if (method_exists($user, 'preferredCategories')) {
+            $user->preferredCategories()->sync($request->input('categories', []));
+        }
+
+        // Redirection vers l’intention (article#comments) ou /account
+        return redirect()->intended(route('account'));
     }
 }

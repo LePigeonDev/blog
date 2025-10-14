@@ -44,4 +44,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+    public function preferredCategories()
+    {
+        return $this->belongsToMany(\App\Models\Category::class, 'category_user');
+    }
 }

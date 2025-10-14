@@ -1,0 +1,169 @@
+/* =======================
+   Thème sombre – Blog
+   Bootstrap 5.3 (data-bs-theme="dark")
+   ======================= */
+
+/* Palette & bases */
+:root{
+  --bg-950:#0b1020;    /* fond profond */
+  --bg-900:#0f172a;    /* panneau / cartes */
+  --bg-800:#111a2e;    /* hover léger */
+  --text-100:#e5e7eb;  /* texte clair */
+  --text-300:#cbd5e1;  /* texte secondaire */
+  --muted:#94a3b8;     /* muted */
+  --line:rgba(148,163,184,.18);
+
+  --brand:#7c3aed;     /* violet 600 */
+  --brand-600:#6d28d9; /* violet 700 */
+  --brand-700:#5b21b6; /* violet 800 */
+
+  --acc-cyan:#06b6d4;  /* cyan */
+  --acc-sky:#0ea5e9;   /* sky */
+  --acc-emerald:#10b981;/* emerald */
+}
+
+/* Fond global : dégradés discrets */
+html,body{height:100%;}
+body{
+  background:
+    radial-gradient(30rem 20rem at -10% 15%, rgba(124,58,237,.18), transparent 60%),
+    radial-gradient(28rem 16rem at 110% 0%, rgba(14,165,233,.12), transparent 60%),
+    radial-gradient(36rem 16rem at 20% 100%, rgba(16,185,129,.10), transparent 60%),
+    linear-gradient(180deg, var(--bg-950), #0a0f1c 60%, #090d18);
+  color:var(--text-100);
+}
+
+/* Navbar “verre sombre” */
+.nav-glass{
+  position: sticky; top:0; z-index:1030;
+  backdrop-filter: saturate(160%) blur(8px);
+  background: rgba(11,16,32,.65);
+  border-bottom: 1px solid var(--line);
+}
+.nav-glass .navbar-brand,
+.nav-glass .nav-link{ color: var(--text-100) !important; }
+.nav-glass .nav-link:hover{ color:#fff !important; }
+.nav-glass .nav-link.active{ color: var(--brand) !important; }
+
+/* Hero sombre */
+.hero{
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(60rem 20rem at 110% -10%, rgba(124,58,237,.15), transparent 50%),
+    radial-gradient(30rem 16rem at -10% 110%, rgba(14,165,233,.12), transparent 50%),
+    linear-gradient(180deg, rgba(15,23,42,.7), rgba(15,23,42,.5));
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+/* Cartes d’articles */
+.card-article{
+  background: var(--bg-900);
+  border:1px solid var(--line);
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.card-article:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(0,0,0,.35);
+  border-color: rgba(124,58,237,.35);
+}
+.img-16x9{
+  aspect-ratio:16/9; object-fit:cover;
+  background:#0e162b; border-bottom:1px solid var(--line);
+}
+.card-title{ color:#fff; }
+.card-excerpt{ color: var(--text-300); }
+.card-meta{ color: var(--muted); }
+
+/* Badges */
+.badge-cat{
+  background: rgba(16,185,129,.15);
+  color:#a7f3d0;
+  border:1px solid rgba(16,185,129,.35);
+}
+.badge-tag{
+  background: rgba(14,165,233,.15);
+  color:#bae6fd;
+  border:1px solid rgba(14,165,233,.35);
+}
+
+/* Boutons */
+.btn-brand{
+  --bs-btn-bg: var(--brand);
+  --bs-btn-border-color: var(--brand);
+  --bs-btn-hover-bg: var(--brand-600);
+  --bs-btn-hover-border-color: var(--brand-600);
+  --bs-btn-active-bg: var(--brand-700);
+  --bs-btn-active-border-color: var(--brand-700);
+  color:#fff;
+}
+.btn-soft{
+  background: rgba(124,58,237,.15);
+  color:#ddd;
+  border:1px solid rgba(124,58,237,.35);
+}
+.btn-soft:hover{ background: rgba(124,58,237,.22); }
+
+/* Liens / links */
+a, .link-primary{ color: #a78bfa; }
+a:hover, .link-primary:hover{ color:#c4b5fd; }
+
+/* Pagination */
+.pagination .page-link{
+  background: var(--bg-900);
+  color: var(--text-100);
+  border-color: var(--line);
+  border-radius: .625rem;
+}
+.pagination .page-link:hover{
+  background: var(--bg-800);
+}
+.pagination .page-item.active .page-link{
+  background-color: var(--brand);
+  border-color: var(--brand);
+}
+
+/* Footer */
+.site-footer{
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+
+/* Petites aides */
+.text-gradient{
+  background: linear-gradient(90deg, #c084fc, var(--acc-cyan));
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+
+/* --- Lisibilité des textes longs (modération, contenus) --- */
+.u-break{
+  overflow-wrap:anywhere;      /* casse même un mot très long */
+  word-break:break-word;       /* compatibilité */
+  hyphens:auto;                /* ajoute des césures naturelles si possible */
+  white-space:pre-wrap;        /* garde les retours, casse sinon */
+}
+
+/* largeur idéale de lecture : ~80–100 caractères par ligne */
+.u-readable{
+  max-width: 90ch;             /* ≈ nombre max de caractères par ligne */
+  line-height: 1.6;
+}
+
+/* Champs plus sombres */
+.form-control, .form-select, .form-check-input {
+  background-color: #0e162b;
+  border-color: var(--line);
+  color: var(--text-100);
+}
+.form-control:focus, .form-select:focus, .form-check-input:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 .2rem rgba(124,58,237,.15);
+}
+
+/* Affichage invalid Bootstrap dans le thème sombre */
+.is-invalid, .was-validated .form-control:invalid {
+  border-color: #ef4444;
+}
+.invalid-feedback { color: #fda4af; }

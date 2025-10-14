@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Post;   
-use App\Models\Comment;  
+use App\Models\Post;
+use App\Models\Comment;
 
 class CommentController extends Controller
 {
@@ -13,12 +13,12 @@ class CommentController extends Controller
         $this->authorize('create', Comment::class);
 
         $validated = $request->validate([
-            'body' => ['required','string','min:500','max:1000'], // 500–1000 caractères
+            'body' => ['required','string','min:500','max:1000'],
         ]);
 
         $comment = new Comment([
             'body' => $validated['body'],
-            'status' => 'pending', // modération par admin
+            'status' => 'pending', 
         ]);
         $comment->user()->associate($request->user());
         $comment->post()->associate($post);
@@ -35,9 +35,10 @@ class CommentController extends Controller
             'body' => ['required','string','min:500','max:1000'],
         ]);
 
-        $comment->update(['body' => $validated['body']]);
-        return back()->with('success','Commentaire mis à jour.');
+        $comment->update(['body' => $validated['body'], 'status' => 'pending']); // repasse en modération
+        return back()->with('success','Commentaire mis à jour (en attente de validation).');
     }
+
 
     public function destroy(Comment $comment)
     {
@@ -46,4 +47,3 @@ class CommentController extends Controller
         return back()->with('success','Commentaire supprimé.');
     }
 }
-

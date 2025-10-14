@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\Paginator;
 // use Illuminate\Pagination\Paginator; // dé-commente si tu passes à Bootstrap
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Paginator::useBootstrapFive();
         // 1) Forcer HTTPS en production (si derrière un proxy/SSL)
         if ($this->app->environment('production')) {
             URL::forceScheme('https');

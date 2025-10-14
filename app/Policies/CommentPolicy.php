@@ -16,6 +16,7 @@ class CommentPolicy
         if ($user && $user->isAdmin()) {
             return true;
         }
+
         return null;
     }
 
@@ -36,6 +37,7 @@ class CommentPolicy
         if ($comment->status === 'approved') {
             return true;
         }
+
         return $user?->id === $comment->user_id;
     }
 
@@ -52,7 +54,7 @@ class CommentPolicy
      */
     public function update(User $user, Comment $comment): bool
     {
-        return $user->id === $comment->user_id;
+        return $user->id === $comment->user_id || $user->isAdmin();
     }
 
     /**
@@ -60,7 +62,7 @@ class CommentPolicy
      */
     public function delete(User $user, Comment $comment): bool
     {
-        return $user->id === $comment->user_id;
+        return $user->id === $comment->user_id || $user->isAdmin();
     }
 
     public function restore(User $user, Comment $comment): bool

@@ -10,13 +10,24 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with(['author','categories','tags'])
-            ->where('status','published')
-            ->orderByDesc('published_at')
-            ->paginate(10);
+        $query = Post::with(['author','categories','tags'])
+            ->where('status','published');
 
-        return view('posts.index', compact('posts'));
+        $filteredByPrefs = false;
+
+        if (Auth::check() && !request()->boolean('all')) {
+            $prefIds = Auth::user()->preferredCategories()->pluck('categories.id')->all();
+            if (!empty($prefIds)) {
+                $query->whereHas('categories', fn($q) => $q->whereIn('categories.id', $prefIds));
+                $filteredByPrefs = true;
+            }
+        }
+
+        $posts = $query->orderByDesc('published_at')->paginate(10)->withQueryString();
+
+        return view('posts.index', compact('posts', 'filteredByPrefs'));
     }
+
 
     public function show(Post $post) // binding par slug (voir routes)
     {
@@ -24,13 +35,14 @@ class PostController extends Controller
         abort_unless($post->status === 'published', 404);
 
         // Commentaires visibles si réglage OK, on ne montre que 'approved' aux invités
-        $commentsQuery = $post->comments()->with('user');
-        if (!Auth::check() && !config('blog.guests_can_see_comments')) {
-            $comments = collect(); // vide
-        } else {
-            $comments = $commentsQuery->where('status','approved')->get();
+        $comments = collect();
+        if (config('blog.guests_can_see_comments')) {
+            $comments = $post->comments()
+                ->with('user')
+                ->where('status','approved') // seuls les approuvés
+                ->latest()
+                ->get();
         }
-
         return view('posts.show', [
             'post' => $post->load(['author','categories','tags']),
             'comments' => $comments,
@@ -38,5 +50,7 @@ class PostController extends Controller
             'next' => $post->next(),
         ]);
     }
+
+    
 }
 

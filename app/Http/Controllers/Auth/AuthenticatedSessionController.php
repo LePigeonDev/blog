@@ -27,7 +27,7 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
 
-        return redirect()->intended(route('account')); // ira sur l'article si url.intended est posée
+        return redirect()->intended(route('home'));
     }
 
     /**

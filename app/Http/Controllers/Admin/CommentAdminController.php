@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment; // <-- AJOUT
 use Illuminate\Http\Request;
 
 class CommentAdminController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(['auth','admin']);
-    }
+
 
     public function index()
     {
@@ -18,22 +16,21 @@ class CommentAdminController extends Controller
         return view('admin.comments.index', compact('comments'));
     }
 
-    public function approve(Comment $comment)
+    public function approve(Comment $comment) // <-- type-hint
     {
         $comment->update(['status' => 'approved']);
         return back()->with('success','Commentaire approuvé');
     }
 
-    public function hide(Comment $comment)
+    public function hide(Comment $comment) // <-- type-hint
     {
         $comment->update(['status' => 'hidden']);
         return back()->with('success','Commentaire masqué');
     }
 
-    public function destroy(Comment $comment)
+    public function destroy(Comment $comment) // <-- type-hint
     {
         $comment->delete();
         return back()->with('success','Commentaire supprimé');
     }
 }
-
